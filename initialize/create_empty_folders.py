@@ -6,25 +6,24 @@ class _initializer:
     pass
 
 
-def create_folder(d: dict, outer_path:str) -> None:
-    for key, subfolder in d.items():
-        new_path = os.path.join(outer_path, key)
-        os.mkdir(new_path)
-        create_folder(subfolder,new_path)
-
-
-
-def _exam_version_folder(self,folder_name:str, version_name:str) ->str:
-    if "-" in folder_name:
-        try:
-            int(folder_name.split("-")[-1])
-            return self.version_name
-        except:
-            pass
-    return folder_name
-
 
 def create_empty_folders(path: str, version_name: str):
+    def create_folder(d: dict, outer_path: str) -> None:
+        for key, subfolder in d.items():
+            key = _exam_version_folder(key)
+            new_path = os.path.join(outer_path, key)
+            os.mkdir(new_path)
+            create_folder(subfolder, new_path)
+
+    def _exam_version_folder(folder_name: str) -> str:
+        if "-" in folder_name:
+            try:
+                int(folder_name.split("-")[-1])
+                return version_name
+            except:
+                pass
+        return folder_name
+
     sample_path = os.path.join(os.getcwd(), "initialize/folder_sample")
     if os.path.exists(sample_path):
         with open(sample_path, 'rb') as f:
