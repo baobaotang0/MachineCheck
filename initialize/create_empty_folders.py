@@ -24,6 +24,18 @@ def create_empty_folders(path: str, version_name: str):
                 pass
         return folder_name
 
+    def add_ini(out_path):
+        l = os.listdir(out_path)
+        for i in l:
+            new_path = os.path.join(out_path, i)
+            if os.path.isdir(new_path):
+                if i in ini_dict.keys():
+                    print()
+                    shutil.copy(os.path.join(os.getcwd(), "initialize/", ini_dict[i]),
+                                os.path.join(new_path, version_name))
+                    continue
+                add_ini(new_path)
+
     sample_path = os.path.join(os.getcwd(), "initialize/folder_sample")
     if os.path.exists(sample_path):
         with open(sample_path, 'rb') as f:
@@ -36,7 +48,10 @@ def create_empty_folders(path: str, version_name: str):
             shutil.rmtree(pathd)
         os.mkdir(pathd)
         create_folder(folder_tree, pathd)
-
+        ini_dict = {"Stand": os.path.join(os.getcwd(), "initialize/index_stand.ini"),
+                    "Wash": os.path.join(os.getcwd(), "initialize/index_wash.ini"),
+                    "Wind": os.path.join(os.getcwd(), "initialize/index_wind.ini")}
+        add_ini(pathd)
 
 if __name__ == '__main__':
     documents_dir = os.path.expanduser(f'~/Desktop')
