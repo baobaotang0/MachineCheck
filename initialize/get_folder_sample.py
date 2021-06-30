@@ -8,7 +8,7 @@ class folder_tree_copier():
             robot = sample_path.split("/")[-1]
             self._robot_tree = {robot: {}}
             self._folder2dict(self._robot_tree[robot], sample_path)
-            with open('folder_sample', "wb") as f:
+            with open(os.path.join(os.getcwd(), "initialize/sample/folder_sample"), "wb") as f:
                 pickle.dump(self._robot_tree, f)
         else:
             raise TypeError("样本文件夹不存在, 请确认路径正确性")
